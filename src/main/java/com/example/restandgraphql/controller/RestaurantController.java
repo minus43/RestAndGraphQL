@@ -27,7 +27,7 @@ import static com.example.restandgraphql.util.SortUtils.parseSort;
  * 레스토랑의 조회, 생성, 수정, 삭제 등의 기능을 제공합니다.
  */
 @RestController
-@RequestMapping("/api/restaurants")
+@RequestMapping("/v1/restaurants")
 @RequiredArgsConstructor // 생성자 주입을 위한 롬복 어노테이션
 public class RestaurantController {
 
