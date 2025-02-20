@@ -1,0 +1,171 @@
+"""
+레스토랑 정보를 담는 타입입니다.
+"""
+type Restaurant {
+    """
+    레스토랑의 고유 식별자
+    @example: "1"
+    """
+    id: ID!
+
+    """
+    레스토랑의 이름
+    @example: "맛있는 김밥"
+    """
+    name: String!
+
+    """
+    레스토랑의 주소
+    @example: "서울시 강남구 역삼동 123-45"
+    """
+    address: String!
+
+    """
+    레스토랑의 전화번호
+    @example: "02-1234-5678"
+    """
+    phoneNumber: String
+}
+
+"""
+페이징된 레스토랑 결과를 담는 타입입니다.
+"""
+type RestaurantPage {
+    """
+    레스토랑 목록
+    """
+    content: [Restaurant!]!
+
+    """
+    전체 페이지 수
+    @example: 5
+    """
+    totalPages: Int!
+
+    """
+    전체 항목 수
+    @example: 42
+    """
+    totalElements: Int!
+
+    """
+    페이지당 항목 수
+    @example: 10
+    """
+    size: Int!
+
+    """
+    현재 페이지 번호 (0부터 시작)
+    @example: 0
+    """
+    number: Int!
+}
+
+"""
+레스토랑 조회를 위한 쿼리 타입입니다.
+"""
+type Query {
+    """
+    페이징된 레스토랑 목록을 조회합니다.
+    @example: query { 
+        getRestaurants(page: 0, size: 10, sort: "name,desc") {
+            content { id name address }
+            totalPages
+            totalElements
+        }
+    }
+    """
+    getRestaurants(
+        """
+        페이지 번호 (0부터 시작)
+        @example: 0
+        """
+        page: Int!,
+
+        """
+        페이지당 항목 수
+        @example: 10
+        """
+        size: Int!,
+
+        """
+        정렬 기준 (필드명,정렬방향)
+        @example: "name,desc"
+        """
+        sort: String!
+    ): RestaurantPage!
+
+    """
+    레스토랑을 이름으로 검색합니다.
+    @example: query {
+        searchRestaurants(name: "맛있는", page: 0, size: 10, sort: "name,desc") {
+            content { id name address }
+            totalPages
+            totalElements
+        }
+    }
+    """
+    searchRestaurants(
+        """
+        검색할 레스토랑 이름
+        @example: "맛있는"
+        """
+        name: String!,
+        page: Int!,
+        size: Int!,
+        sort: String!
+    ): RestaurantPage!
+}
+
+"""
+레스토랑 정보를 변경하는 뮤테이션 타입입니다.
+"""
+type Mutation {
+    """
+    새로운 레스토랑을 생성합니다.
+    @example: mutation {
+        createRestaurant(name: "맛있는 김밥", address: "서울시 강남구 역삼동 123-45") {
+            id
+            name
+            address
+        }
+    }
+    """
+    createRestaurant(
+        """
+        레스토랑 이름
+        @example: "맛있는 김밥"
+        """
+        name: String!,
+
+        """
+        레스토랑 주소
+        @example: "서울시 강남구 역삼동 123-45"
+        """
+        address: String!
+    ): Restaurant!
+
+    """
+    기존 레스토랑 정보를 수정합니다.
+    @example: mutation {
+        updateRestaurant(id: "1", name: "수정된 김밥", address: "수정된 주소") {
+            id
+            name
+            address
+        }
+    }
+    """
+    updateRestaurant(
+        id: ID!,
+        name: String!,
+        address: String!
+    ): Restaurant!
+
+    """
+    레스토랑을 삭제합니다.
+    @example: mutation {
+        deleteRestaurant(id: "1")
+    }
+    """
+    deleteRestaurant(id: ID!): Boolean!
+}

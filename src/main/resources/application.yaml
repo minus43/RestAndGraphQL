@@ -1,0 +1,48 @@
+server:
+  port: 8080  # 서버가 실행될 포트 번호를 지정합니다
+
+spring:
+  application:
+    name: RestAndGraphQL  # 애플리케이션의 이름을 지정합니다
+
+  datasource:
+    url: jdbc:h2:mem:testdb  # H2 인메모리 데이터베이스를 사용합니다 (개발 및 테스트 환경용)
+    driver-class-name: org.h2.Driver  # H2 데이터베이스 드라이버를 지정합니다
+    username: sa  # 데이터베이스 접속 사용자 이름
+    password:  # 데이터베이스 접속 비밀번호 (기본값: 빈 문자열)
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect  # JPA에서 사용할 데이터베이스 방언을 설정합니다
+    hibernate:
+      ddl-auto: update  # 애플리케이션 시작 시 테이블 자동 생성/수정 (개발 환경용)
+    show-sql: true  # SQL 쿼리를 콘솔에 출력합니다
+    properties:
+      hibernate:
+        format_sql: true  # SQL 쿼리를 보기 좋게 포맷팅하여 출력합니다
+
+  graphql:
+    graphiql:
+      enabled: true  # GraphQL IDE인 GraphiQL을 활성화합니다 (개발 도구)
+    schema:
+      locations: classpath:graphql/**  # GraphQL 스키마 파일이 위치한 경로를 지정합니다
+
+  h2:
+    console:
+      enabled: true  # H2 데이터베이스 관리 콘솔을 활성화합니다
+      path: /h2-console  # H2 콘솔에 접근할 수 있는 URL 경로를 지정합니다
+      settings:
+        trace: false  # SQL 추적 기능을 비활성화합니다
+        web-allow-others: true  # 외부에서 H2 콘솔 접근을 허용합니다
+
+  web:
+    cors:
+      allowed-origins: "*"  # 모든 도메인에서의 API 접근을 허용합니다 (CORS 설정)
+      allowed-methods: GET, POST, PUT, DELETE, OPTIONS  # 허용할 HTTP 메서드를 지정합니다
+      allowed-headers: "*"  # 모든 HTTP 헤더의 사용을 허용합니다
+      allow-credentials: true  # 인증 정보를 포함한 요청을 허용합니다
+
+logging:
+  level:
+    org.springframework: INFO  # 스프링 프레임워크의 로그 레벨을 INFO로 설정합니다
+    org.hibernate.SQL: DEBUG  # Hibernate가 실행하는 SQL 쿼리의 로그 레벨을 DEBUG로 설정합니다
+    org.springframework.graphql: DEBUG  # GraphQL 관련 로그 레벨을 DEBUG로 설정합니다
